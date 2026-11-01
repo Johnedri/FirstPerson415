@@ -1,0 +1,8 @@
+// Copyright Epic Games, Inc. All Rights Reserved.
+
+#include "FirstPerson415.h"
+#include "Modules/ModuleManager.h"
+
+IMPLEMENT_PRIMARY_GAME_MODULE( FDefaultGameModuleImpl, FirstPerson415, "FirstPerson415" );
+
+DEFINE_LOG_CATEGORY(LogFirstPerson415)
