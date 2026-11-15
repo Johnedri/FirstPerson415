@@ -4,13 +4,17 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Components/StaticMeshComponent.h"
+#include "Materials/Material.h"
+#include "Materials/MaterialInterface.h"
+#include "Materials/MaterialInstanceDynamic.h"
 #include "firstperson415Projectile.generated.h"
 
 class USphereComponent;
 class UProjectileMovementComponent;
 
 UCLASS(config=Game)
-class Afirstperson415Projectile : public AActor
+class FIRSTPERSON415_API AFirstPerson415Projectile : public AActor
 {
 	GENERATED_BODY()
 
@@ -40,7 +44,7 @@ class Afirstperson415Projectile : public AActor
 
 public:
 	// Sets default values for this actor's properties
-	Afirstperson415Projectile();
+	AFirstPerson415Projectile();
 
 protected:
 	// Called when the game starts or when spawned

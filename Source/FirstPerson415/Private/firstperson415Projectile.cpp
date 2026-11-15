@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "firstperson415Projectile.h"
+#include "FirstPerson415Projectile.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Components/SphereComponent.h"
@@ -11,13 +11,13 @@
 
 
 
-Afirstperson415Projectile::Afirstperson415Projectile()
+AFirstPerson415Projectile::AFirstPerson415Projectile()
 {
 	// Use a sphere as a simple collision representation
 	CollisionComp = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComp"));
 	CollisionComp->InitSphereRadius(5.0f);
 	CollisionComp->BodyInstance.SetCollisionProfileName("Projectile");
-	CollisionComp->OnComponentHit.AddDynamic(this, &Afirstperson415Projectile::OnHit); // set up a notification when this component hits something blocking
+	CollisionComp->OnComponentHit.AddDynamic(this, &AFirstPerson415Projectile::OnHit); // set up a notification when this component hits something blocking
 
 	// Players can't walk on it
 	CollisionComp->SetWalkableSlopeOverride(FWalkableSlopeOverride(WalkableSlope_Unwalkable, 0.f));
@@ -45,7 +45,7 @@ Afirstperson415Projectile::Afirstperson415Projectile()
 }
 
 // Called when the game starts or when spawned
-void Afirstperson415Projectile::BeginPlay()
+void AFirstPerson415Projectile::BeginPlay()
 {
 	Super::BeginPlay();
 	randColor = FLinearColor(UKismetMathLibrary::RandomFloatInRange(0.f, 1.f), UKismetMathLibrary::RandomFloatInRange(0.f, 1.f), UKismetMathLibrary::RandomFloatInRange(0.f, 1.f), 1.f);
@@ -58,7 +58,7 @@ void Afirstperson415Projectile::BeginPlay()
 }
 
 
-void Afirstperson415Projectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+void AFirstPerson415Projectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
 	// Only add impulse and destroy projectile if we hit a physics
 	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr) && OtherComp->IsSimulatingPhysics())
@@ -76,17 +76,20 @@ void Afirstperson415Projectile::OnHit(UPrimitiveComponent* HitComp, AActor* Othe
 		float ranNumZ = UKismetMathLibrary::RandomFloatInRange(0.f, 1.f);
 		float frameNum = UKismetMathLibrary::RandomFloatInRange(0.f, 3.f);
 
+		randColor = FLinearColor(ranNumX, ranNumY, ranNumZ, 1.f);
+
 		auto Decal = UGameplayStatics::SpawnDecalAtLocation(GetWorld(), baseMat, FVector(UKismetMathLibrary::RandomFloatInRange(20.f, 40.f)), Hit.Location, Hit.Normal.Rotation(), 0.f);
 		auto MatInstance = Decal->CreateDynamicMaterialInstance();
 
 		MatInstance->SetVectorParameterValue("Color", randColor);
 		MatInstance->SetScalarParameterValue("Frame", frameNum);
 
-		APerlinProcTerrain* procTerrain = Cast<APerlinProcTerrain>(OtherActor);
+	/*	APerlinProcTerrain* procTerrain = Cast<APerlinProcTerrain>(OtherActor);
 
 		if (procTerrain) {
-			procTerrain0 < AlterMesh(Hit.ImpactPoint);
+			procTerrain->AlterMesh(Hit.ImpactPoint);
 		}
+		*/
 	}
 }
 
